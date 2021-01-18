@@ -176,3 +176,166 @@ describe('test class names according to icon kind', () => {
     expect(wrapper.find('a').hasClass('links__icon--document')).toBe(true);
   });
 });
+
+describe('test UserContext', () => {
+  it('renders internal link containing user event', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a document link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={0}
+            iconKind={4}
+            linkInternal={linkInternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    expect(wrapper.find('a').at(0).props().href).toBe('/summerburst');
+  });
+
+  it('renders username in link text', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a internal link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={0}
+            iconKind={4}
+            linkInternal={linkInternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    expect(wrapper.find('a a').text()).toContain('johndoe');
+  });
+});
+
+describe('test style', () => {
+  it('test if styling has top and left', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a document link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={0}
+            iconKind={4}
+            linkInternal={linkInternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    const style = wrapper.find('a a').props().style;
+    expect(style).toHaveProperty('left', '10%', 'top', '10%');
+  });
+});
+
+describe('test link title', () => {
+  it('test if it renders correct title in internal link', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a internal link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={0}
+            iconKind={4}
+            linkInternal={linkInternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    expect(wrapper.find('a a').text()).toContain('This is a internal link title');
+  });
+
+  it('test if it renders correct title in external link', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a external link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={1}
+            iconKind={4}
+            linkExternal={linkExternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    expect(wrapper.find('a').text()).toBe('This is a external link title');
+  });
+
+  it('test if it renders correct title in modal link', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a modal link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={2}
+            iconKind={4}
+            linkExternal={linkExternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    expect(wrapper.find('a').text()).toBe('This is a modal link title');
+  });
+
+  it('test if it renders correct title in document link', () => {
+    const wrapper = mount(
+      <UserContextProvider>
+        <BrowserRouter>
+          <ActionPoint
+            title="This is a document link title"
+            description="This is a description"
+            top={10}
+            left={10}
+            linkKind={3}
+            iconKind={4}
+            linkExternal={linkExternal}
+          />
+        </BrowserRouter>
+      </UserContextProvider>
+    );
+    expect(wrapper.find('a').text()).toBe('This is a document link title');
+  });
+});
+
+// renders null/nothing if no internal link is provided
+
+// describe('renders null/nothing if no internal link is provided', () => {
+//   it('test if it renders null/nothing if no internal link is provided', () => {
+//     const wrapper = mount(
+//       <UserContextProvider>
+//         <BrowserRouter>
+//           <ActionPoint
+//             title="This is a document link title"
+//             description="This is a description"
+//             top={10}
+//             left={10}
+//             linkKind={0}
+//             iconKind={4}
+//             linkExternal={linkExternal}
+//           />
+//         </BrowserRouter>
+//       </UserContextProvider>
+//     );
+//     expect(wrapper.find('a').text()).toBe('This is a document link title');
+//   });
+// });
